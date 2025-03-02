@@ -6,8 +6,6 @@ public static class Util
 {
     public static T GetOrAddComponent<T>(this GameObject go) where T : MonoBehaviour
     {
-        var component = go.GetComponent<T>();
-        if(component != null ) go.AddComponent<T>();
-        return component;
+        return go.TryGetComponent<T>(out var component) ?  component : go.AddComponent<T>();
     }
 }

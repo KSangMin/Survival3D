@@ -27,12 +27,12 @@ public class PlayerCondition : MonoBehaviour, IDamageable
         if (health.curValue <= 0f) Dead();
     }
 
-    void Heal(float amount)
+    public void Heal(float amount)
     {
         health.Add(amount);
     }
 
-    void Eat(float amount)
+    public void Eat(float amount)
     {
         hunger.Add(amount);
     }

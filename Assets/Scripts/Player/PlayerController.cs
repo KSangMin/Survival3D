@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -26,8 +27,11 @@ public class PlayerController : MonoBehaviour
     private InputAction _lookAction;
     private InputAction _jumpAction;
     private InputAction _attackAction;
-    private InputAction _inventoryAction;
-    //private InputAction _interactAction;
+    public InputAction _inventoryAction;
+    public InputAction _interactAction;
+
+    public bool canLook = true;
+    public Action inventoryAction;
 
     private void Awake()
     {
@@ -40,19 +44,21 @@ public class PlayerController : MonoBehaviour
         _jumpAction = _Input.actions["Jump"];
         _attackAction = _Input.actions["Attack"];
         _inventoryAction = _Input.actions["Inventory"];
-        //_interactAction = _Input.actions["Interact"];
+        _interactAction = _Input.actions["Interact"];
 
         _moveAction.performed -= OnMove;
         _moveAction.canceled -= OnMove;
         _lookAction.performed -= OnLook;
         _lookAction.canceled -= OnLook;
         _jumpAction.started -= OnJump;
+        _inventoryAction.started -= OnInventory;
 
         _moveAction.performed += OnMove;
         _moveAction.canceled += OnMove;
         _lookAction.performed += OnLook;
         _lookAction.canceled += OnLook;
         _jumpAction.started += OnJump;
+        _inventoryAction.started += OnInventory;
     }
 
     private void Start()
@@ -67,7 +73,7 @@ public class PlayerController : MonoBehaviour
 
     private void LateUpdate()
     {
-        CameraLook();
+        if(canLook) CameraLook();
     }
 
     void Move()
@@ -125,5 +131,17 @@ public class PlayerController : MonoBehaviour
         }
 
         return false;
+    }
+
+    void OnInventory(InputAction.CallbackContext context)
+    {
+        if (context.started) ToggleCursor();
+    }
+
+    void ToggleCursor()
+    {
+        bool toggle = Cursor.lockState == CursorLockMode.Locked;
+        Cursor.lockState = toggle ? CursorLockMode.None : CursorLockMode.Locked;
+        canLook = !toggle;
     }
 }

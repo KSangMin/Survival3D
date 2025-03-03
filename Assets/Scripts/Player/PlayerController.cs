@@ -27,8 +27,7 @@ public class PlayerController : MonoBehaviour
     private InputAction _jumpAction;
     private InputAction _attackAction;
     private InputAction _inventoryAction;
-    private InputAction _interactAction;
-
+    //private InputAction _interactAction;
 
     private void Awake()
     {
@@ -41,7 +40,7 @@ public class PlayerController : MonoBehaviour
         _jumpAction = _Input.actions["Jump"];
         _attackAction = _Input.actions["Attack"];
         _inventoryAction = _Input.actions["Inventory"];
-        _interactAction = _Input.actions["Interact"];
+        //_interactAction = _Input.actions["Interact"];
 
         _moveAction.performed -= OnMove;
         _moveAction.canceled -= OnMove;

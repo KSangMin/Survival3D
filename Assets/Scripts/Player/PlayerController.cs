@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float maxXLook;
     private float _camCurXRot;
     public float lookSensitivity;
-    private Transform _camTransform;
+    public Transform _camTransform;
     private Vector2 _mouseDelta;
 
     [Header("Jump")]
@@ -26,39 +26,38 @@ public class PlayerController : MonoBehaviour
     private InputAction _moveAction;
     private InputAction _lookAction;
     private InputAction _jumpAction;
-    private InputAction _attackAction;
-    public InputAction _inventoryAction;
-    public InputAction _interactAction;
+    public InputAction attackAction;
+    public InputAction inventoryInputAction;
+    public InputAction interactAction;
 
     public bool canLook = true;
     public Action inventoryAction;
 
     private void Awake()
     {
-        _camTransform = GetComponentInChildren<Camera>().transform;
         _rb = GetComponent<Rigidbody>();
         _Input = GetComponent<PlayerInput>();
 
         _moveAction = _Input.actions["Move"];
         _lookAction = _Input.actions["Look"];
         _jumpAction = _Input.actions["Jump"];
-        _attackAction = _Input.actions["Attack"];
-        _inventoryAction = _Input.actions["Inventory"];
-        _interactAction = _Input.actions["Interact"];
+        attackAction = _Input.actions["Attack"];
+        inventoryInputAction = _Input.actions["Inventory"];
+        interactAction = _Input.actions["Interact"];
 
         _moveAction.performed -= OnMove;
         _moveAction.canceled -= OnMove;
         _lookAction.performed -= OnLook;
         _lookAction.canceled -= OnLook;
         _jumpAction.started -= OnJump;
-        _inventoryAction.started -= OnInventory;
+        inventoryInputAction.started -= OnInventory;
 
         _moveAction.performed += OnMove;
         _moveAction.canceled += OnMove;
         _lookAction.performed += OnLook;
         _lookAction.canceled += OnLook;
         _jumpAction.started += OnJump;
-        _inventoryAction.started += OnInventory;
+        inventoryInputAction.started += OnInventory;
     }
 
     private void Start()

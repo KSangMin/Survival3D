@@ -15,13 +15,16 @@ public class Interaction : MonoBehaviour
     public TextMeshProUGUI promptText;
     private Camera cam;
 
+    PlayerController controller;
+
     private void Start()
     {
         cam = Camera.main;
+        controller = GetComponent<PlayerController>();
 
-        CharacterManager.Instance.Player.controller._interactAction.started -= OnInteractInput;
+        controller.interactAction.started -= OnInteractInput;
 
-        CharacterManager.Instance.Player.controller._interactAction.started += OnInteractInput;
+        controller.interactAction.started += OnInteractInput;
     }
 
     private void Update()

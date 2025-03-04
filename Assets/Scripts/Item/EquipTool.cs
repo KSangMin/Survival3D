@@ -50,6 +50,7 @@ public class EquipTool : Equip
         if(Physics.Raycast(ray, out RaycastHit hit, attackDistance))
         {
             if (canGatherResource && hit.collider.TryGetComponent(out Resource resource)) resource.Gather(hit.point, hit.normal);
+            else if (canDealDamage && hit.collider.TryGetComponent(out NPC npc)) npc.TakePhysicalDamage(damage);
         }
         Debug.Log(hit.collider?.name);
     }

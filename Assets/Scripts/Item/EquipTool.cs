@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.UI.Image;
 
 public class EquipTool : Equip
 {
@@ -15,9 +16,12 @@ public class EquipTool : Equip
 
     Animator animator;
 
+    Camera cam;
+
     private void Start()
     {
         animator = GetComponent<Animator>();
+        cam = Camera.main;
     }
 
     public override void OnAttackInput()
@@ -33,5 +37,16 @@ public class EquipTool : Equip
     void OnCanAttack()
     {
         isAttacking = false;
+    }
+
+    public void OnHit()
+    {
+        Ray ray = cam.ScreenPointToRay(new Vector3(Screen.width / 2f, Screen.height / 2f, 0));
+
+        if(Physics.Raycast(ray, out RaycastHit hit, attackDistance))
+        {
+            if (canGatherResource && hit.collider.TryGetComponent(out Resource resource)) resource.Gather(hit.point, hit.normal);
+        }
+        Debug.Log(hit.collider?.name);
     }
 }
